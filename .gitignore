@@ -1,0 +1,42 @@
+# ── Secrets: never commit ──────────────────────────────────────────────
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vapid*
+secrets.json
+
+# ── Raw personal data: never commit (masked/ and expected/ are OK) ─────
+samples/raw/
+*.eml
+
+# ── Salesforce ─────────────────────────────────────────────────────────
+.sfdx/
+.sf/
+.localdevserver/
+salesforce/**/deploy-options.json
+*.log
+
+# ── Node ───────────────────────────────────────────────────────────────
+node_modules/
+dist/
+build/
+.wrangler/
+coverage/
+.vite/
+*.tsbuildinfo
+.turbo/
+
+# ── Editors / OS ───────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# ── Test artefacts ─────────────────────────────────────────────────────
+playwright-report/
+test-results/
