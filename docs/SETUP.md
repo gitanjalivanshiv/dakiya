@@ -23,7 +23,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | [x] | **[M]** `gh auth login` | 2026-09-16 · account `gitanjalivanshiv`, HTTPS, scopes repo+workflow+gist+read:org |
 | [x] | git identity configured | 2026-09-16 · repo-local; noreply email so no real address enters public history |
 | [ ] | **[M]** Cloudflare account + `npx wrangler login` | |
-| [ ] | Public repo `dakiya` created and pushed | |
+| [x] | Public repo `dakiya` created and pushed | 2026-09-16 · https://github.com/gitanjalivanshiv/dakiya · public, main, 14 files, leak-scanned |
 | [x] | Monorepo scaffold, `.gitignore`, README, docs | 2026-09-16 · dirs + .gitignore + README + SETUP + DECISIONS |
 
 **Recorded values (non-secret)**
