@@ -22,7 +22,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | [x] | gh CLI installed | 2026-09-16 · 2.101.0 → `~/.local/bin/gh`, PATH added to `~/.zshrc` (see DECISIONS) |
 | [x] | **[M]** `gh auth login` | 2026-09-16 · account `gitanjalivanshiv`, HTTPS, scopes repo+workflow+gist+read:org |
 | [x] | git identity configured | 2026-09-16 · repo-local; noreply email so no real address enters public history |
-| [ ] | **[M]** Cloudflare account + `npx wrangler login` | |
+| [x] | **[M]** Cloudflare account + `npx wrangler login` | 2026-09-16 · OAuth token in `~/Library/Preferences/.wrangler`; single account (id not committed) |
 | [x] | Public repo `dakiya` created and pushed | 2026-09-16 · https://github.com/gitanjalivanshiv/dakiya · public, main, 14 files, leak-scanned |
 | [x] | Monorepo scaffold, `.gitignore`, README, docs | 2026-09-16 · dirs + .gitignore + README + SETUP + DECISIONS |
 
@@ -38,6 +38,8 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | Future Pages URL (`APP_ORIGIN` path) | `https://gitanjalivanshiv.github.io/dakiya/` |
 
 ✅ **Accept:** repo pushed · `sf org display -o agentTrial2` connected · `wrangler whoami` OK.
+
+**Phase 0 complete — 2026-09-16.** All 10 acceptance checks pass.
 
 ---
 
