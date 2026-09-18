@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_Check_Due__c</fullName>
+    <description>Refund_Initiated_On__c + vendor Typical_Refund_Days__c, or DefaultRefundCheckDays. When a 'did your refund arrive?' reminder fires.</description>
+    <label>Refund Check Due</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

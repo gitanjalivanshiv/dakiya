@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Window_Ends__c</fullName>
+    <description>Delivered date + the vendor's Return_Window_Days__c. Null when the vendor window is unknown.</description>
+    <label>Return Window Ends</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

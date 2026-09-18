@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AWB__c</fullName>
+    <description>Airway bill / tracking number, exactly as it appears in the source. Never invented. Unique so the same parcel is never tracked twice.</description>
+    <label>AWB</label>
+    <length>60</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>true</unique>
+    <externalId>true</externalId>
+    <caseSensitive>false</caseSensitive>
+</CustomField>

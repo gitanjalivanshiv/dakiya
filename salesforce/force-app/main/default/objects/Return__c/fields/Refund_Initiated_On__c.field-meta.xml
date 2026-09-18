@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_Initiated_On__c</fullName>
+    <description>The last thing the system can observe. Everything after this is Gitanjali checking and telling it.</description>
+    <label>Refund Initiated On</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

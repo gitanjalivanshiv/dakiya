@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>A return or exchange. Tracked up to 'Refund Initiated', after which the system reminds Gitanjali to check her own bank/app and record what actually arrived. Dakiya never reads bank data.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Return</label>
+    <nameField>
+        <displayFormat>RET-{0000}</displayFormat>
+        <label>Return Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Returns</pluralLabel>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

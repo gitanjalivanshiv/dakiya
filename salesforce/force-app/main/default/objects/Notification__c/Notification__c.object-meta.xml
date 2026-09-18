@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Outbox. Scheduled Apex writes rows here; the Worker cron polls, sends Web Push, and reports the result back. Dedupe_Key__c makes the scheduler safe to run repeatedly.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Notification</label>
+    <nameField>
+        <displayFormat>NTF-{0000}</displayFormat>
+        <label>Notification Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Notifications</pluralLabel>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Sender_Patterns__c</fullName>
+    <description>One pattern per line: a domain (amazon.in) or a full address. Used by DakiyaParserRegistry to pick a parser.</description>
+    <label>Email Sender Patterns</label>
+    <length>4000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

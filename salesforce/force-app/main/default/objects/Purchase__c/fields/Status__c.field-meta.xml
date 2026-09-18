@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Set by DakiyaStateMachine only. 'Delivered (Unconfirmed)' means the courier says delivered but Gitanjali has not confirmed it.</description>
+    <label>Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+                <value>
+                    <fullName>Placed</fullName>
+                    <default>true</default>
+                    <label>Placed</label>
+                </value>
+                <value>
+                    <fullName>Confirmed</fullName>
+                    <default>false</default>
+                    <label>Confirmed</label>
+                </value>
+                <value>
+                    <fullName>Partially Shipped</fullName>
+                    <default>false</default>
+                    <label>Partially Shipped</label>
+                </value>
+                <value>
+                    <fullName>Shipped</fullName>
+                    <default>false</default>
+                    <label>Shipped</label>
+                </value>
+                <value>
+                    <fullName>Out for Delivery</fullName>
+                    <default>false</default>
+                    <label>Out for Delivery</label>
+                </value>
+                <value>
+                    <fullName>Delivered (Unconfirmed)</fullName>
+                    <default>false</default>
+                    <label>Delivered (Unconfirmed)</label>
+                </value>
+                <value>
+                    <fullName>Received</fullName>
+                    <default>false</default>
+                    <label>Received</label>
+                </value>
+                <value>
+                    <fullName>Not Received</fullName>
+                    <default>false</default>
+                    <label>Not Received</label>
+                </value>
+                <value>
+                    <fullName>Cancelled</fullName>
+                    <default>false</default>
+                    <label>Cancelled</label>
+                </value>
+                <value>
+                    <fullName>Return in Progress</fullName>
+                    <default>false</default>
+                    <label>Return in Progress</label>
+                </value>
+                <value>
+                    <fullName>Closed</fullName>
+                    <default>false</default>
+                    <label>Closed</label>
+                </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

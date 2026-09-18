@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SMS_Sender_Patterns__c</fullName>
+    <description>One DLT header fragment per line, e.g. AMAZON, MYNTRA. Matched against the SMS sender header.</description>
+    <label>SMS Sender Patterns</label>
+    <length>4000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

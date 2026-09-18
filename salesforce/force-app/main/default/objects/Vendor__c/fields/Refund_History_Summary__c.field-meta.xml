@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_History_Summary__c</fullName>
+    <description>LEARNED, human-readable, e.g. '3 returns: 2 full to UPI, 1 store credit'. Recomputed when an outcome is recorded.</description>
+    <label>Refund History Summary</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

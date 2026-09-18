@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Admin view of the Dakiya data. The real UI is the PWA - this app exists so Gitanjali (and Claude) can inspect and repair records directly when something goes wrong.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Dakiya</label>
+    <navType>Standard</navType>
+    <tabs>Purchase__c</tabs>
+    <tabs>Shipment__c</tabs>
+    <tabs>Return__c</tabs>
+    <tabs>Vendor__c</tabs>
+    <tabs>Tracking_Event__c</tabs>
+    <tabs>Inbound_Message__c</tabs>
+    <tabs>Notification__c</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

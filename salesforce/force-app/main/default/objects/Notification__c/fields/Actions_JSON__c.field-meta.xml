@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actions_JSON__c</fullName>
+    <description>At most 2 actions - Android shows no more. e.g. [{"id":"received","label":"Got it"}]</description>
+    <label>Actions JSON</label>
+    <length>4000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

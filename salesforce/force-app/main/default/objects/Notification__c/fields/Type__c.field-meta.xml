@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+                <value>
+                    <fullName>Morning Digest</fullName>
+                    <default>false</default>
+                    <label>Morning Digest</label>
+                </value>
+                <value>
+                    <fullName>Confirm Delivery</fullName>
+                    <default>false</default>
+                    <label>Confirm Delivery</label>
+                </value>
+                <value>
+                    <fullName>Stalled</fullName>
+                    <default>false</default>
+                    <label>Stalled</label>
+                </value>
+                <value>
+                    <fullName>Seller Follow-up</fullName>
+                    <default>false</default>
+                    <label>Seller Follow-up</label>
+                </value>
+                <value>
+                    <fullName>Refund Check</fullName>
+                    <default>false</default>
+                    <label>Refund Check</label>
+                </value>
+                <value>
+                    <fullName>Return Window</fullName>
+                    <default>false</default>
+                    <label>Return Window</label>
+                </value>
+                <value>
+                    <fullName>Review Needed</fullName>
+                    <default>false</default>
+                    <label>Review Needed</label>
+                </value>
+                <value>
+                    <fullName>Weekly Check</fullName>
+                    <default>false</default>
+                    <label>Weekly Check</label>
+                </value>
+                <value>
+                    <fullName>System</fullName>
+                    <default>false</default>
+                    <label>System</label>
+                </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

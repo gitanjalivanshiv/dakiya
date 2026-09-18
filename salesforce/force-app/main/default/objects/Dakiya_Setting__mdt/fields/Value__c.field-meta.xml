@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Value__c</fullName>
+    <description>The setting value as text. Apex parses it to the type it needs. Kept as text so one field serves numbers, decimals and enums.</description>
+    <externalId>false</externalId>
+    <label>Value</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

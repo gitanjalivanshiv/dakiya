@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confidence__c</fullName>
+    <description>0-100. Below ReviewConfidence goes to the review queue silently; between that and AutoApplyConfidence also sends a push asking Gitanjali to confirm.</description>
+    <label>Confidence</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Percent</type>
+</CustomField>

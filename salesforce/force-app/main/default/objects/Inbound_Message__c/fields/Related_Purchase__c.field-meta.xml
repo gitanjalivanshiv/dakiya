@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Purchase__c</fullName>
+    <label>Related Purchase</label>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <referenceTo>Purchase__c</referenceTo>
+    <relationshipLabel>Inbound Messages</relationshipLabel>
+    <relationshipName>Inbound_Messages</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

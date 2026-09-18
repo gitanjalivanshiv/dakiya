@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dedupe_Key__c</fullName>
+    <description>Gmail messageId, or sha256(sender+body+minute) for SMS. Unique, so re-delivery of the same message is a no-op.</description>
+    <label>Dedupe Key</label>
+    <length>128</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>true</unique>
+    <externalId>true</externalId>
+    <caseSensitive>false</caseSensitive>
+</CustomField>

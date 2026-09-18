@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+                <value>
+                    <fullName>Requested</fullName>
+                    <default>true</default>
+                    <label>Requested</label>
+                </value>
+                <value>
+                    <fullName>Pickup Scheduled</fullName>
+                    <default>false</default>
+                    <label>Pickup Scheduled</label>
+                </value>
+                <value>
+                    <fullName>Picked Up</fullName>
+                    <default>false</default>
+                    <label>Picked Up</label>
+                </value>
+                <value>
+                    <fullName>Received by Seller</fullName>
+                    <default>false</default>
+                    <label>Received by Seller</label>
+                </value>
+                <value>
+                    <fullName>Refund Initiated</fullName>
+                    <default>false</default>
+                    <label>Refund Initiated</label>
+                </value>
+                <value>
+                    <fullName>Refund Check Due</fullName>
+                    <default>false</default>
+                    <label>Refund Check Due</label>
+                </value>
+                <value>
+                    <fullName>Completed</fullName>
+                    <default>false</default>
+                    <label>Completed</label>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                    <label>Rejected</label>
+                </value>
+                <value>
+                    <fullName>Cancelled</fullName>
+                    <default>false</default>
+                    <label>Cancelled</label>
+                </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
