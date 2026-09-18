@@ -77,14 +77,21 @@ message falls through to the review queue instead of being guessed at.
 
 | | Step | Notes |
 |---|---|---|
-| [ ] | **[M]** Confirm Einstein + Agentforce enabled; record usage allowance | |
-| [ ] | Invocable actions (§7) + tests, deployed | |
-| [ ] | Custom Agentforce Service Agent "Dakiya" created | |
-| [ ] | **[M]** `Dakiya_Integration` assigned to agent user; agent activated | |
+| [x] | Agentforce prerequisites confirmed | 2026-09-18 · Einstein Agent User `agent.user.…@agentforce.com` found via API; no manual step needed |
+| [x] | Invocable actions (§7) + tests, deployed | 2026-09-18 · 16 actions, 159 tests passing, 88.6% coverage |
+| [x] | Custom Agentforce Service Agent "Dakiya" created | 2026-09-18 · Agent Script bundle in git; local compile clean; `sf agent validate` success; deployed as **draft** |
+| [ ] | **[M]** `Dakiya_Integration` assigned to agent user; **agent published + activated by Gitanjali** | Claude never publishes or activates (see DECISIONS) |
 | [ ] | Agent ID recorded (18-char, `0Xx…`) | |
-| [ ] | Agent metadata retrieved into git | |
+| [x] | Agent metadata in git | 2026-09-18 · authored in git as source, so nothing to retrieve |
 
 ✅ **Accept:** 10 core utterances behave correctly in Builder preview, including refusing to invent a tracking number.
+
+**Phase 2 status — 2026-09-18.** Built and validated; behavioural preview outstanding.
+- 16 invocable actions deployed; 159 tests passing, 88.6% coverage
+- Agent Script bundle compiles clean locally (0 severity-1) and validates against the org
+- Deployed as a **draft**. Publish + activate are Gitanjali's step, by her instruction
+- `sf agent preview` needs an interactive TTY, so the 15 use cases in `docs/AGENT_SPEC.md`
+  are exercised by her, not by Claude
 
 ---
 

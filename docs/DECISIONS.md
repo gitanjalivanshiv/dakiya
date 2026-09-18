@@ -85,3 +85,78 @@ this org from git will hit the same wall, so it belongs in the runbook.
    happy-path statuses, but the forward-only rule needs a rank for every value or these two would
    rank 0 and any later event could regress out of them. Not Received sits just above
    Delivered (Unconfirmed) because it is a decision about that delivery; Cancelled is terminal.
+
+---
+
+## 2026-09-18 — The agent is built with Agent Script, not clicked together in Builder
+
+**Decision.** "Dakiya" is authored as an `AiAuthoringBundle` (`Dakiya.agent` + `Dakiya.bundle-meta.xml`)
+and deployed from source, rather than built by hand in Agentforce Builder.
+
+**Reason.** §7 of the spec allowed either ("Build with Agentforce DX if available in the user's CLI,
+otherwise guide the user through Agentforce Builder"). `sf agent` is available and complete in this
+CLI, so the agent lives in git, is diffable, compiles locally, and can be rebuilt if the org is lost -
+none of which is true of a UI-built agent. It also removes roughly an hour of click-by-click steps.
+
+---
+
+## 2026-09-18 — `default_agent_user` lives in `access:`, not `config:`
+
+**Decision.** The bundle uses a top-level `access:` block. `agent_type: "AgentforceServiceAgent"` is
+also set explicitly.
+
+**Reason.** The CLI scaffold still emits `config.default_agent_user`, but the Agent Script compiler
+flags it: *"deprecated: Property default_agent_user has moved from config to access."* The `access:`
+form was then confirmed against the org itself - `sf agent validate authoring-bundle -o agentTrial2`
+returns success - so this is not just a local-compiler preference.
+
+---
+
+## 2026-09-18 — No escalation subagent
+
+**Decision.** The scaffolded `escalation` subagent and its `@utils.escalate` action were removed.
+
+**Reason.** Escalation hands a conversation to a human support agent. Dakiya is one person's private
+tracker; there is nobody to escalate to. An agent offering to "transfer you to an agent" would be
+misleading. Off-topic and ambiguous-question handling were kept, since both are real.
+
+---
+
+## 2026-09-18 — Parameterless invocable actions keep a `List<String>` signature
+
+**Decision.** `Dakiya_GetPendingDeliveries`, `Dakiya_ListOpenReturns` and `Dakiya_ListReviewItems`
+take `List<String>`, and their Agent Script definitions declare no inputs.
+
+**Reason.** A request wrapper would give the planner properly named inputs, but Salesforce rejects a
+request class with no `@InvocableVariable` fields: *"InvocableMethod methods do not support parameter
+type of List<...Request>"*. `List<String>` is the supported shape for an action that genuinely takes
+no arguments.
+
+---
+
+## 2026-09-18 — Claude does not publish or activate the agent
+
+**Decision.** Claude builds, validates and deploys the agent as a **draft** only. `sf agent publish`
+and `sf agent activate` are never run by Claude, now or on any later change.
+
+**Reason.** The owner asked to keep activation - the point at which the agent becomes reachable
+through the Agent API - as her own decision. This also matches the Agent Script skill's own
+draft-first rule, which treats publish and activate as explicit release actions requiring the
+owner's confirmation.
+
+---
+
+## 2026-09-18 — The Einstein Agent User username is committed
+
+**Decision.** `access.default_agent_user` in `Dakiya.agent` contains the real Einstein Agent User
+login, and that file is in the public repo.
+
+**Reason.** `CLAUDE.md` forbids committing email addresses, and this value is email-shaped, so it was
+raised with the owner rather than committed silently. She confirmed it should go in as-is. It is a
+system-generated agent-user login inside a disposable developer org, not a personal address, and a
+username without a password grants no access. The alternative - a placeholder plus a manual edit
+before every deploy - would leave a clean clone unable to deploy.
+
+**How to apply:** this exception covers the agent-user login only. Every other rule in
+`CLAUDE.md` non-negotiable 2 stands: no secrets, no personal email addresses, no phone numbers,
+no real order data.
