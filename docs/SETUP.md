@@ -47,18 +47,29 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 
 | | Step | Notes |
 |---|---|---|
-| [ ] | **[M]** Company Information → Time Zone IST, Currency INR | |
-| [ ] | **[M]** Storage Usage recorded (⚠️ trial org, verify real limits) | |
-| [ ] | SFDX project generated | |
-| [ ] | Objects + fields + picklists (§4) | |
-| [ ] | `Dakiya_Setting__mdt` + default records | |
-| [ ] | Permission sets `Dakiya_User`, `Dakiya_Integration` | |
-| [ ] | Tabs + Lightning app "Dakiya" | |
-| [ ] | Apex: state machine, matching, parser registry, evidence validator, ingest, queueable, REST | |
-| [ ] | Deploy to `agentTrial2` | |
-| [ ] | `Dakiya_User` assigned | |
+| [x] | **[M]** Company Information → Time Zone IST, Currency INR | 2026-09-16 · org + user both `Asia/Kolkata` / `en_IN`, verified by query |
+| [x] | Storage limits recorded (no manual step needed) | 2026-09-16 · read from limits API: **DataStorageMB 5 max, 2 remaining** (~1000 records). Developer Edition confirmed |
+| [x] | SFDX project generated | 2026-09-16 · API 67.0, LWC/jest tooling removed |
+| [x] | Objects + fields + picklists (§4) | 2026-09-16 · 8 objects, 84 fields |
+| [x] | `Dakiya_Setting__mdt` + default records | 2026-09-16 · 14 records (13 from spec + `Extractor`) |
+| [x] | Permission sets `Dakiya_User`, `Dakiya_Integration` | 2026-09-16 · 76 field perms each; Integration has no delete on Purchase/Vendor/Return |
+| [x] | Tabs + Lightning app "Dakiya" | 2026-09-16 · 7 tabs |
+| [x] | Apex: state machine, matching, parser registry, evidence validator, ingest, queueable, REST | 2026-09-18 · 19 classes; LLM path stubbed until Phase 6 |
+| [x] | Deploy to `agentTrial2` | 2026-09-18 · 153 components |
+| [x] | `Dakiya_User` assigned | 2026-09-16 · **required** — metadata-deployed fields grant FLS to nobody, not even admin (see DECISIONS) |
 
 ✅ **Accept:** deploy succeeds · Apex tests ≥ 85% · Purchase creatable via Apex REST.
+
+**Phase 1 complete — 2026-09-18.**
+- Deploy: 153/153 components to `agentTrial2`
+- Tests: **131 passing, 0 failing**, **89.7%** coverage on Dakiya classes (bar is 85%)
+- REST verified live: `POST /purchases` created an order + items and auto-created the vendor;
+  `POST /ingest` returned `duplicate:false` then `duplicate:true` for the same key; `/today` and
+  `/health` return their full shapes. Smoke-test records deleted afterwards.
+
+**Not yet built (deliberately, per the spec):** vendor rule parsers and the LLM extraction call.
+Parsers are written in Phase 6 from real masked samples rather than guessed now; until then every
+message falls through to the review queue instead of being guessed at.
 
 ---
 
