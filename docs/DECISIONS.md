@@ -160,3 +160,64 @@ before every deploy - would leave a clean clone unable to deploy.
 **How to apply:** this exception covers the agent-user login only. Every other rule in
 `CLAUDE.md` non-negotiable 2 stands: no secrets, no personal email addresses, no phone numbers,
 no real order data.
+
+---
+
+## 2026-09-18 — Agent API shapes verified; the spec was already correct
+
+**Decision.** `worker/src/lib/agent-api.ts` implements §9.2 exactly as the spec describes it. No
+deviation.
+
+**Reason.** §9.2 is marked ⚠️VERIFY, so every shape was checked against current documentation before
+implementing. All confirmed:
+
+| Thing | Confirmed |
+|---|---|
+| Token endpoint | `POST {myDomain}/services/oauth2/token`, `grant_type=client_credentials` |
+| Start session | `POST https://api.salesforce.com/einstein/ai-agent/v1/agents/{agentId}/sessions` |
+| Session body | `externalSessionKey`, `instanceConfig.endpoint`, `streamingCapabilities.chunkTypes`, `bypassUser` |
+| Send message | `POST /einstein/ai-agent/v1/sessions/{sessionId}/messages` (and `/messages/stream`) |
+| Message body | `{ message: { sequenceId, type: "Text", text } }` |
+| End session | `DELETE /einstein/ai-agent/v1/sessions/{sessionId}` with `x-session-end-reason` |
+| ECA scopes | `api`, `refresh_token offline_access`, `chatbot_api`, `sfap_api` |
+
+Note: `developer.salesforce.com` returns 403 to automated fetching, so these were confirmed from
+search results and secondary documentation rather than by reading the page directly. The client is
+deliberately confined to one small file so a future shape change is a one-file fix.
+
+---
+
+## 2026-09-18 — The Salesforce token is cached on a fixed TTL, not on `expires_in`
+
+**Decision.** Cache the client-credentials token in KV for 30 minutes, and refresh once on any 401.
+
+**Reason.** The client-credentials grant does not return `expires_in`, so there is no expiry to
+honour. A fixed conservative TTL plus a single silent retry on 401 covers both early revocation and
+an org session timeout, without a token being re-fetched on every request.
+
+---
+
+## 2026-09-18 — Client Credentials "Run As" is the owner's own user
+
+**Decision.** The External Client App runs as Gitanjali's user, not a dedicated integration user.
+
+**Reason.** §14 Phase 3 asks for an integration user holding only `Dakiya_Integration`, which is the
+right shape for least privilege. Developer Edition does not provide spare user licences to create
+one. Her user already holds `Dakiya_User`, which covers everything the Worker calls.
+
+**Consequence.** The Worker's Salesforce access is broader than the design intends. This is a
+single-user personal system where that user is the only human in the org, so the blast radius is
+unchanged in practice - but if this ever moved to an org with more users, a dedicated integration
+user would be required before anything else.
+
+---
+
+## 2026-09-18 — JWT auth is hand-rolled over WebCrypto
+
+**Decision.** `worker/src/lib/jwt.ts` implements HS256 sign/verify directly rather than adding a JWT
+library.
+
+**Reason.** It needs two functions; many JWT libraries assume Node APIs that the Workers runtime does
+not provide; and a dependency with access to the signing key is a dependency worth not having.
+Verification uses `crypto.subtle.verify`, which is constant-time, so there is no hand-written
+comparison to get wrong.

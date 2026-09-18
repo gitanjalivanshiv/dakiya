@@ -1,0 +1,14 @@
+# Copy to .dev.vars (gitignored) for local `wrangler dev`.
+# Real values never belong in this file or anywhere else in the repo.
+SF_CLIENT_ID=
+SF_CLIENT_SECRET=
+JWT_SIGNING_KEY=
+SETUP_CODE=
+EMAIL_HMAC_SECRET=
+SMS_INGEST_TOKEN=
+VAPID_PUBLIC_KEY=
+VAPID_PRIVATE_KEY=
+ANTHROPIC_API_KEY=
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+WHATSAPP_ALLOWED_FROM=

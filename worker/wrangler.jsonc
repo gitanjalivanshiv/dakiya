@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dakiya-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-12-30",
+  // Required by @cloudflare/vitest-pool-workers, and by the Node APIs the
+  // WebAuthn work in Phase 4 will need.
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Non-secret configuration. Secrets go in via `wrangler secret put` and are
+  // never written here - this file is committed to a public repo.
+  "vars": {
+    "SF_MY_DOMAIN_URL": "https://orgfarm-a6f4756b11-dev-ed.develop.my.salesforce.com",
+    "SF_AGENT_ID": "",
+    "APP_ORIGIN": "https://gitanjalivanshiv.github.io",
+    "SMS_SENDER_ALLOWLIST": "",
+    "RP_ID": "gitanjalivanshiv.github.io"
+  },
+
+  "kv_namespaces": [
+    { "binding": "DAKIYA_KV", "id": "46048fe901c4437f9527448d587f0496" }
+  ]
+}
