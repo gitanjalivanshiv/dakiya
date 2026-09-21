@@ -17,8 +17,8 @@ and a React PWA on GitHub Pages is the UI installed on my phone. Twilio WhatsApp
 
 Before doing anything:
 1. Read CLAUDE.md and docs/BUILD_SPEC.md fully. They are the source of truth.
-2. My Salesforce org alias is agentTrial2. Run `sf org display -o agentTrial2` and confirm it's connected. Use
-   `-o agentTrial2` on every sf command and never touch any other org.
+2. My Salesforce org alias is trial3. Run `sf org display -o trial3` and confirm it's connected. Use
+   `-o trial3` on every sf command and never touch any other org.
 3. Check my workstation for Phase 0 (node ≥ 20, git, gh auth, sf CLI, wrangler) and tell me what's missing.
 4. For each ⚠️VERIFY item in the phase you're about to do, check the current official docs first. If the docs differ
    from the spec, follow the docs and log it in docs/DECISIONS.md.

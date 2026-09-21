@@ -12,8 +12,8 @@ Full design and phase plan: **`docs/BUILD_SPEC.md`**. Read it before any work. P
 (you create and maintain it).
 
 ## Non-negotiables
-1. **Salesforce org alias is `agentTrial2`.** Every `sf` command MUST include `-o agentTrial2` (or `--target-org agentTrial2`).
-   Never deploy, query or delete against any other org. Run `sf org display -o agentTrial2` at the start of each session
+1. **Salesforce org alias is `trial3`.** Every `sf` command MUST include `-o trial3` (or `--target-org trial3`).
+   Never deploy, query or delete against any other org. Run `sf org display -o trial3` at the start of each session
    and stop if it fails.
 2. **Public repo, zero secrets in git.** GitHub Pages (free) needs a public repo. No client secrets, tokens, HMAC keys,
    phone numbers, email addresses, real order data or sample messages may ever be committed.
@@ -66,8 +66,8 @@ The user wants to be walked through them properly. For every manual step:
 ```
 
 ## Commands (fill in as they become real)
-- Salesforce deploy: `cd salesforce && sf project deploy start -o agentTrial2`
-- Apex tests: `sf apex run test -o agentTrial2 --test-level RunLocalTests --result-format human --code-coverage --wait 20`
+- Salesforce deploy: `cd salesforce && sf project deploy start -o trial3`
+- Apex tests: `sf apex run test -o trial3 --test-level RunLocalTests --result-format human --code-coverage --wait 20`
 - Worker dev/test/deploy: `cd worker && npm run dev | npm test | npx wrangler deploy`
 - App dev/test/build: `cd app && npm run dev | npm test | npm run build`
 - Extraction accuracy harness: `npm run eval` (see spec §10)

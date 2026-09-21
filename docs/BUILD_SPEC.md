@@ -1,6 +1,6 @@
 # Dakiya — Build Spec (v1, personal use)
 
-Owner: Gitanjali · Phone: Android · Locale: India (IST, INR) · Salesforce org alias: `agentTrial2`
+Owner: Gitanjali · Phone: Android · Locale: India (IST, INR) · Salesforce org alias: `trial3`
 Items marked **⚠️VERIFY** must be checked against current official docs before implementation.
 
 ---
@@ -41,7 +41,7 @@ Items marked **⚠️VERIFY** must be checked against current official docs befo
                                                       │ OAuth client credentials (ECA)
                                                       ▼
                                    ┌──────────────────────────────────────────┐
-                                   │ Salesforce Dev org (agentTrial2)          │
+                                   │ Salesforce Dev org (trial3)          │
                                    │  • Custom objects (Purchase, Shipment…)   │
                                    │  • Apex REST /dakiya/v1/*                 │
                                    │  • Rule parsers + Prompt Template (LLM)   │
@@ -396,17 +396,17 @@ Each phase ends with: acceptance checks → update `docs/SETUP.md` → commit �
 **[M]** = manual step Claude must guide click-by-click (see CLAUDE.md protocol).
 
 ### Phase 0 — Workstation and repo
-- Check: `node -v` (≥ 20), `git`, `gh auth status`, `sf --version`, `sf org display -o agentTrial2`, `npx wrangler --version`.
+- Check: `node -v` (≥ 20), `git`, `gh auth status`, `sf --version`, `sf org display -o trial3`, `npx wrangler --version`.
 - **[M]** `gh auth login` if needed · **[M]** create free Cloudflare account + `npx wrangler login` (browser).
 - Create public GitHub repo (confirm name with user) via `gh repo create`, scaffold monorepo, `.gitignore`, README, `docs/SETUP.md`, `docs/DECISIONS.md`.
-- ✅ Accept: repo pushed; `sf org display -o agentTrial2` shows connected; wrangler whoami OK.
+- ✅ Accept: repo pushed; `sf org display -o trial3` shows connected; wrangler whoami OK.
 
 ### Phase 1 — Salesforce foundation
 - **[M]** Setup → Company Information: Default Time Zone = (GMT+05:30) India Standard Time, Currency = INR (if editable); user's own time zone IST.
 - **[M]** Setup → Storage Usage: record current data/file storage limits in SETUP.md.
 - Generate SFDX project; objects/fields/picklists (§4); CMDT + default records; permission sets; tab + simple Lightning app "Dakiya" for admin browsing.
 - Apex: `DakiyaStateMachine`, `DakiyaMatchingService`, `DakiyaParserRegistry` (+ interface, no vendor parsers yet), `DakiyaEvidenceValidator`, `DakiyaIngestService`, `DakiyaProcessMessageJob` (LLM call stubbed), REST controllers (§8), tests.
-- Deploy to `agentTrial2`; assign `Dakiya_User` to the user (`sf org assign permset -n Dakiya_User -o agentTrial2`).
+- Deploy to `trial3`; assign `Dakiya_User` to the user (`sf org assign permset -n Dakiya_User -o trial3`).
 - ✅ Accept: deploy succeeds; Apex tests pass ≥ 85%; creating a Purchase via Apex REST in anonymous Apex / Workbench works.
 
 ### Phase 2 — Agentforce agent
@@ -421,7 +421,7 @@ Each phase ends with: acceptance checks → update `docs/SETUP.md` → commit �
 - **[M]** Setup → External Client App Manager → New External Client App "Dakiya Gateway": enable OAuth; callback `https://localhost/callback` (unused); scopes `api`, `refresh_token, offline_access`, `chatbot_api`, `sfap_api`; enable **Client Credentials Flow**; enable JWT-based access tokens for named users if required ⚠️VERIFY; Policies → Client Credentials Flow **Run As** = integration user with `Dakiya_Integration`. Copy consumer key (chat OK) and secret (**separate terminal** → `wrangler secret put`).
 - **[M]** Connect the ECA to the agent if the current Agent API setup requires it (e.g. agent Connections → API) ⚠️VERIFY.
 - Worker scaffold (Hono, zod, KV, vars/secrets per §9), SF token client, `/health`, `/api/chat/*` proxy, CLI test script `npm run chat:smoke` that creates a session and streams one reply.
-- ✅ Accept: `npm run chat:smoke` gets a streamed agent reply from `agentTrial2`; `wrangler deploy` works; secrets listed (names only).
+- ✅ Accept: `npm run chat:smoke` gets a streamed agent reply from `trial3`; `wrangler deploy` works; secrets listed (names only).
 
 ### Phase 4 — PWA shell + passkey + chat
 - App scaffold, HashRouter, tab bar, Chat screen wired to Worker, Settings.

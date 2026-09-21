@@ -92,6 +92,6 @@ refusal in code cannot.
 ## Validation status
 
 - Local compile (`@sf-agentscript/agentforce` 2.9.27): **0 severity-1 diagnostics**
-- `sf agent validate authoring-bundle -o agentTrial2`: **success**
-- Deployed to `agentTrial2` as a draft authoring bundle
+- `sf agent validate authoring-bundle -o trial3`: **success**
+- Deployed to `trial3` as a draft authoring bundle
 - Behavioural preview: **outstanding** — `sf agent preview` needs an interactive terminal

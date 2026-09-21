@@ -221,3 +221,34 @@ library.
 not provide; and a dependency with access to the signing key is a dependency worth not having.
 Verification uses `crypto.subtle.verify`, which is constant-time, so there is no hand-written
 comparison to get wrong.
+
+---
+
+## 2026-09-21 — The project org moves from `agentTrial2` to `trial3`
+
+**Decision.** `trial3` (Org Id `00DgK00000aAUcnUAG`, My Domain
+`https://orgfarm-562b8294cc-dev-ed.develop.my.salesforce.com`) is now the project org. Every `sf`
+command uses `-o trial3`. `CLAUDE.md` non-negotiable 1 was rewritten accordingly, and the Worker's
+`SF_MY_DOMAIN_URL` was repointed.
+
+**Reason.** The owner asked for everything built so far to be rebuilt in a fresh org, and confirmed
+trial3 replaces agentTrial2 rather than running alongside it. Dated entries above still name
+agentTrial2 because that is where that work actually happened; they are a record, not configuration.
+
+**What the move proved.** The repo rebuilds a clean org from source with no manual data entry:
+168 components deployed, 121 tests passing at 88.6% coverage, and a live REST round-trip, all
+without touching agentTrial2. That was the real test of "metadata in git so the org can be rebuilt"
+in BUILD_SPEC section 3.
+
+**Two differences worth knowing:**
+
+1. **Storage is 5 MB free, not 2.** agentTrial2 had roughly 3 MB already consumed by unrelated
+   work; trial3 is empty. Roughly 2,500 records of headroom rather than 1,000. The section 8.6
+   retention jobs still matter, but there is more room to be wrong in.
+2. **No Einstein Agent User exists yet.** The Einstein Agent licence is present and entirely unused
+   (0 of 201), but no user holds it, so `access.default_agent_user` in `Dakiya.agent` still names
+   agentTrial2's user and the agent cannot be deployed to trial3 until Agentforce is switched on and
+   that user is provisioned.
+
+**Also carried over:** the agent is still never published or activated by Claude. See the
+2026-09-18 entry - that rule follows the project, not the org.

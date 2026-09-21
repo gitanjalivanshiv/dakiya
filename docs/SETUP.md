@@ -3,7 +3,7 @@
 The build checklist. **[M]** = manual step done by Gitanjali in a browser / on the phone.
 Never record secret values here — only that a secret was set, and where.
 
-**Salesforce org alias: `agentTrial2`** — every `sf` command must use `-o agentTrial2`.
+**Salesforce org alias: `trial3`** — every `sf` command must use `-o trial3`.
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 
@@ -17,7 +17,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | [x] | npm | 2026-09-16 · 11.16.0 |
 | [x] | git | 2026-09-16 · 2.50.1 (Apple Git-155) |
 | [x] | sf CLI | 2026-09-16 · 2.145.6 (2.150.6 available, not blocking) |
-| [x] | `sf org display -o agentTrial2` | 2026-09-16 · Connected · API 67.0 · Org Id `00DgK00000VebolUAB` |
+| [x] | `sf org display -o trial3` | 2026-09-21 · Connected · API 67.0 · Org Id `00DgK00000aAUcnUAG` |
 | [x] | wrangler available | 2026-09-16 · 4.132.0 via `npx` |
 | [x] | gh CLI installed | 2026-09-16 · 2.101.0 → `~/.local/bin/gh`, PATH added to `~/.zshrc` (see DECISIONS) |
 | [x] | **[M]** `gh auth login` | 2026-09-16 · account `gitanjalivanshiv`, HTTPS, scopes repo+workflow+gist+read:org |
@@ -30,14 +30,14 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 
 | Key | Value |
 |---|---|
-| `SF_MY_DOMAIN_URL` | `https://orgfarm-a6f4756b11-dev-ed.develop.my.salesforce.com` |
-| Salesforce org id | `00DgK00000VebolUAB` |
+| `SF_MY_DOMAIN_URL` | `https://orgfarm-562b8294cc-dev-ed.develop.my.salesforce.com` |
+| Salesforce org id | `00DgK00000aAUcnUAG` |
 | Salesforce API version | 67.0 |
 | Repo name | `dakiya` |
 | GitHub account | `gitanjalivanshiv` |
 | Future Pages URL (`APP_ORIGIN` path) | `https://gitanjalivanshiv.github.io/dakiya/` |
 
-✅ **Accept:** repo pushed · `sf org display -o agentTrial2` connected · `wrangler whoami` OK.
+✅ **Accept:** repo pushed · `sf org display -o trial3` connected · `wrangler whoami` OK.
 
 **Phase 0 complete — 2026-09-16.** All 10 acceptance checks pass.
 
@@ -48,20 +48,20 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | | Step | Notes |
 |---|---|---|
 | [x] | **[M]** Company Information → Time Zone IST, Currency INR | 2026-09-16 · org + user both `Asia/Kolkata` / `en_IN`, verified by query |
-| [x] | Storage limits recorded (no manual step needed) | 2026-09-16 · read from limits API: **DataStorageMB 5 max, 2 remaining** (~1000 records). Developer Edition confirmed |
+| [x] | Storage limits recorded (no manual step needed) | 2026-09-21 · trial3: **DataStorageMB 5 max, 5 remaining** (empty org). Developer Edition confirmed |
 | [x] | SFDX project generated | 2026-09-16 · API 67.0, LWC/jest tooling removed |
 | [x] | Objects + fields + picklists (§4) | 2026-09-16 · 8 objects, 84 fields |
 | [x] | `Dakiya_Setting__mdt` + default records | 2026-09-16 · 14 records (13 from spec + `Extractor`) |
 | [x] | Permission sets `Dakiya_User`, `Dakiya_Integration` | 2026-09-16 · 76 field perms each; Integration has no delete on Purchase/Vendor/Return |
 | [x] | Tabs + Lightning app "Dakiya" | 2026-09-16 · 7 tabs |
 | [x] | Apex: state machine, matching, parser registry, evidence validator, ingest, queueable, REST | 2026-09-18 · 19 classes; LLM path stubbed until Phase 6 |
-| [x] | Deploy to `agentTrial2` | 2026-09-18 · 153 components |
+| [x] | Deploy to `trial3` | 2026-09-18 · 153 components |
 | [x] | `Dakiya_User` assigned | 2026-09-16 · **required** — metadata-deployed fields grant FLS to nobody, not even admin (see DECISIONS) |
 
 ✅ **Accept:** deploy succeeds · Apex tests ≥ 85% · Purchase creatable via Apex REST.
 
 **Phase 1 complete — 2026-09-18.**
-- Deploy: 153/153 components to `agentTrial2`
+- Deploy: 153/153 components to `trial3`
 - Tests: **131 passing, 0 failing**, **89.7%** coverage on Dakiya classes (bar is 85%)
 - REST verified live: `POST /purchases` created an order + items and auto-created the vendor;
   `POST /ingest` returned `duplicate:false` then `duplicate:true` for the same key; `/today` and
@@ -105,7 +105,7 @@ message falls through to the review queue instead of being guessed at.
 | [ ] | Worker scaffold (Hono, zod, KV) + `/health` | |
 | [ ] | Agent API chat proxy + `npm run chat:smoke` | |
 
-✅ **Accept:** `chat:smoke` streams a reply from `agentTrial2` · `wrangler deploy` works.
+✅ **Accept:** `chat:smoke` streams a reply from `trial3` · `wrangler deploy` works.
 
 ---
 
