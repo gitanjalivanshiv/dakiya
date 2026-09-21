@@ -33,6 +33,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | `SF_MY_DOMAIN_URL` | `https://orgfarm-562b8294cc-dev-ed.develop.my.salesforce.com` |
 | Salesforce org id | `00DgK00000aAUcnUAG` |
 | Salesforce API version | 67.0 |
+| Einstein Agent User (agent runs as) | `dakiya.agent@trial3.dakiya` |
 | Repo name | `dakiya` |
 | GitHub account | `gitanjalivanshiv` |
 | Future Pages URL (`APP_ORIGIN` path) | `https://gitanjalivanshiv.github.io/dakiya/` |
@@ -80,7 +81,8 @@ message falls through to the review queue instead of being guessed at.
 | [x] | Agentforce prerequisites confirmed | 2026-09-18 · Einstein Agent User `agent.user.…@agentforce.com` found via API; no manual step needed |
 | [x] | Invocable actions (§7) + tests, deployed | 2026-09-18 · 16 actions, 159 tests passing, 88.6% coverage |
 | [x] | Custom Agentforce Service Agent "Dakiya" created | 2026-09-18 · Agent Script bundle in git; local compile clean; `sf agent validate` success; deployed as **draft** |
-| [ ] | **[M]** `Dakiya_Integration` assigned to agent user; **agent published + activated by Gitanjali** | Claude never publishes or activates (see DECISIONS) |
+| [x] | **[M]** Einstein Agent User created; `Dakiya_Integration` assigned | 2026-09-21 · `dakiya.agent@trial3.dakiya`, profile Einstein Agent User, + AgentforceServiceAgentUserPsg & SecureBase |
+| [ ] | **[M]** **Agent published + activated by Gitanjali** | Claude never publishes or activates (see DECISIONS) |
 | [ ] | Agent ID recorded (18-char, `0Xx…`) | |
 | [x] | Agent metadata in git | 2026-09-18 · authored in git as source, so nothing to retrieve |
 

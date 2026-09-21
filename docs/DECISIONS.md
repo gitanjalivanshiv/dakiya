@@ -252,3 +252,20 @@ in BUILD_SPEC section 3.
 
 **Also carried over:** the agent is still never published or activated by Claude. See the
 2026-09-18 entry - that rule follows the project, not the org.
+
+---
+
+## 2026-09-21 — The agent user is created by hand, not by Agentforce Builder
+
+**Decision.** `trial3`'s Einstein Agent User (`dakiya.agent@trial3.dakiya`) was created manually in
+Setup and given `AgentforceServiceAgentUserPsg`, `AgentforceServiceAgentSecureBase` and our own
+`Dakiya_Integration`.
+
+**Reason.** Salesforce normally provisions this user as a side effect of creating a Service Agent in
+Agentforce Builder - it prompts for an Agent User and assigns the permission set group automatically.
+Dakiya is deployed from source instead, so that flow never runs, and `access.default_agent_user` has
+to name a user that already exists. Turning Agentforce on alone does not create one: after enabling
+it, `trial3` still had 0 of 201 Einstein Agent licences in use.
+
+**Consequence.** Any future org rebuild needs this user created before the agent bundle will deploy.
+It belongs in the runbook as a prerequisite, not a footnote.
