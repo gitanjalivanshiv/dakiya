@@ -34,6 +34,8 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done (date + one-line note)
 | Salesforce org id | `00DgK00000aAUcnUAG` |
 | Salesforce API version | 67.0 |
 | Einstein Agent User (agent runs as) | `dakiya.agent@trial3.dakiya` |
+| Worker URL (`VITE_WORKER_URL`) | `https://dakiya-gateway.gitanjali-mishra.workers.dev` |
+| Cloudflare KV namespace | `46048fe901c4437f9527448d587f0496` |
 | Repo name | `dakiya` |
 | GitHub account | `gitanjalivanshiv` |
 | Future Pages URL (`APP_ORIGIN` path) | `https://gitanjalivanshiv.github.io/dakiya/` |
@@ -101,10 +103,10 @@ message falls through to the review queue instead of being guessed at.
 
 | | Step | Notes |
 |---|---|---|
-| [ ] | **[M]** External Client App "Dakiya Gateway" + Client Credentials Flow | |
+| [x] | **[M]** External Client App "Dakiya Gateway" + Client Credentials Flow | 2026-09-21 · created in trial3; functional verification pending `npm run sf:token-check` |
 | [ ] | Consumer key recorded (non-secret) | |
 | [ ] | `SF_CLIENT_SECRET` set via separate terminal | |
-| [ ] | Worker scaffold (Hono, zod, KV) + `/health` | |
+| [x] | Worker scaffold (Hono, zod, KV) + `/health` | 2026-09-22 · deployed; /health 200, /api/* 401, CORS refuses foreign origins, security headers verified live |
 | [ ] | Agent API chat proxy + `npm run chat:smoke` | |
 
 ✅ **Accept:** `chat:smoke` streams a reply from `trial3` · `wrangler deploy` works.
