@@ -198,3 +198,83 @@ describe('unknown routes', () => {
         expect(await res.json()).toMatchObject({ error: { code: 'NOT_FOUND' } });
     });
 });
+
+describe('data api (BUILD_SPEC 9.4)', () => {
+    /** Stand in for Salesforce: OAuth token endpoint plus Apex REST. */
+    function mockApex(status = 200, body: unknown = { ok: true }) {
+        return vi.spyOn(globalThis, 'fetch').mockImplementation(async (input: RequestInfo | URL, init) => {
+            const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+            if (url.includes('/services/oauth2/token')) {
+                return new Response(
+                    JSON.stringify({ access_token: 'tok', instance_url: 'https://example.my.salesforce.com' }),
+                    { status: 200 },
+                );
+            }
+            if (url.includes('/services/apexrest/dakiya/v1')) {
+                return new Response(JSON.stringify({ ...(body as object), _url: url, _method: init?.method }), { status });
+            }
+            return new Response('{}', { status: 200 });
+        });
+    }
+
+    it('requires auth like every other /api route', async () => {
+        const res = await SELF.fetch('https://worker/api/today');
+        expect(res.status).toBe(401);
+    });
+
+    it('proxies today to Apex REST', async () => {
+        mockApex(200, { arrivingToday: [], awaitingConfirmation: [] });
+        const res = await SELF.fetch('https://worker/api/today', {
+            headers: { Authorization: await bearer() },
+        });
+        expect(res.status).toBe(200);
+        const body = (await res.json()) as Record<string, string>;
+        expect(body._url).toContain('/services/apexrest/dakiya/v1/today');
+    });
+
+    it('forwards only the search params that were supplied', async () => {
+        mockApex();
+        const res = await SELF.fetch('https://worker/api/purchases?vendor=Myntra&limit=10', {
+            headers: { Authorization: await bearer() },
+        });
+        const body = (await res.json()) as Record<string, string>;
+        expect(body._url).toContain('vendor=Myntra');
+        expect(body._url).toContain('limit=10');
+        expect(body._url).not.toContain('status=');
+    });
+
+    it('validates the actions payload before touching Salesforce', async () => {
+        const spy = mockApex();
+        const res = await SELF.fetch('https://worker/api/actions', {
+            method: 'POST',
+            headers: { Authorization: await bearer(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete_everything', recordId: 'a01xxxxxxxxxxxxxxx' }),
+        });
+        expect(res.status).toBe(400);
+        // Nothing should have reached Salesforce - not even a token request.
+        const calls = spy.mock.calls.map((c) => String(c[0]));
+        expect(calls.some((u) => u.includes('apexrest'))).toBe(false);
+    });
+
+    it('passes a valid action through', async () => {
+        mockApex(200, { status: 'Received' });
+        const res = await SELF.fetch('https://worker/api/actions', {
+            method: 'POST',
+            headers: { Authorization: await bearer(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'confirm_received', recordId: 'a01xxxxxxxxxxxxxxx' }),
+        });
+        expect(res.status).toBe(200);
+        const body = (await res.json()) as Record<string, string>;
+        expect(body._method).toBe('POST');
+        expect(body._url).toContain('/actions');
+    });
+
+    it('passes an Apex error envelope through unchanged', async () => {
+        mockApex(400, { error: { code: 'BAD_REQUEST', message: 'outcome is required' } });
+        const res = await SELF.fetch('https://worker/api/today', {
+            headers: { Authorization: await bearer() },
+        });
+        expect(res.status).toBe(400);
+        expect(await res.json()).toMatchObject({ error: { code: 'BAD_REQUEST' } });
+    });
+});

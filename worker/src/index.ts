@@ -11,6 +11,7 @@ import {
     nextSequence,
     sendMessageStream,
 } from './lib/agent-api';
+import { proxy, queryString } from './lib/apex-rest';
 
 const app = new Hono<{ Bindings: Env; Variables: { sub: string } }>();
 
@@ -53,6 +54,47 @@ app.use('/api/*', async (c, next) => {
  * (BUILD_SPEC section 9.4).
  */
 app.get('/health', (c) => c.json({ ok: true }));
+
+// ── Data API (BUILD_SPEC 9.4) - everything the app reads or changes ───
+// Thin pass-through to Apex REST. Shapes live in Apex so the app and the agent
+// can never disagree about what "pending" means.
+
+app.get('/api/today', (c) => proxy(c.env, 'GET', '/today'));
+
+app.get('/api/purchases', (c) => {
+    const q = c.req.query();
+    return proxy(c.env, 'GET', '/purchases' + queryString({
+        status: q.status, vendor: q.vendor, q: q.q, limit: q.limit, offset: q.offset,
+    }));
+});
+
+app.get('/api/purchases/:id', (c) => proxy(c.env, 'GET', `/purchases/${c.req.param('id')}`));
+
+app.post('/api/purchases', async (c) =>
+    proxy(c.env, 'POST', '/purchases', await c.req.json().catch(() => ({}))));
+
+app.get('/api/returns', (c) =>
+    proxy(c.env, 'GET', '/returns' + queryString({ open: c.req.query('open') })));
+
+app.get('/api/vendors', (c) => proxy(c.env, 'GET', '/vendors'));
+
+const actionSchema = z.object({
+    action: z.enum(['confirm_received', 'not_received', 'refund_outcome', 'resolve_review', 'snooze']),
+    recordId: z.string().min(15).max(18),
+    payload: z.record(z.unknown()).optional(),
+});
+
+app.post('/api/actions', async (c) => {
+    const parsed = actionSchema.safeParse(await c.req.json().catch(() => null));
+    if (!parsed.success) {
+        return c.json({
+            error: { code: 'BAD_REQUEST', message: 'action and recordId are required' },
+        }, 400);
+    }
+    return proxy(c.env, 'POST', '/actions', parsed.data);
+});
+
+app.get('/api/health/salesforce', (c) => proxy(c.env, 'GET', '/health'));
 
 // ── Chat proxy (BUILD_SPEC 9.2) ───────────────────────────────────────
 
