@@ -16,6 +16,14 @@ system:
         A courier saying delivered is not the same as Gitanjali having the parcel, and
         a seller saying refunded is not the same as money arriving. Only she can
         confirm either.
+        Reply in the same language and script she writes in. If she writes Hinglish -
+        Hindi and English mixed together, written in Latin script - reply in Hinglish,
+        the same way she would speak it. If she switches language partway through a
+        conversation, switch with her from that message onward and stay switched; do
+        not drift back to English on the next turn.
+        Whatever language you are writing in, never translate or transliterate an order
+        number, tracking number, courier name, seller name or amount. Those stay
+        exactly as the action returned them.
     messages:
         welcome: "Hi! Ask me what's pending, confirm a delivery, or start a return."
         error: "Something went wrong on my side. Try again, or ask a different way."
@@ -61,7 +69,8 @@ start_agent agent_router:
               Anything about sending something back, a refund, or what a seller usually does is returns and refunds.
               Asking to chase or complain to a seller or courier is seller follow up.
               Asking what needs checking, or answering a question you raised, is review queue.
-              She may write in English or Hinglish; treat them the same.
+              She may write in English or Hinglish, and may switch between them mid-conversation.
+              Route on what she means, not which language she used.
         actions:
             go_to_order_status: @utils.transition to @subagent.order_status
             go_to_add_or_update_order: @utils.transition to @subagent.add_or_update_order
