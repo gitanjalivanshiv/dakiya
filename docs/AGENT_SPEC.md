@@ -94,4 +94,27 @@ refusal in code cannot.
 - Local compile (`@sf-agentscript/agentforce` 2.9.27): **0 severity-1 diagnostics**
 - `sf agent validate authoring-bundle -o trial3`: **success**
 - Deployed to `trial3` as a draft authoring bundle
-- Behavioural preview: **outstanding** — `sf agent preview` needs an interactive terminal
+- Behaviour suite: **17/17 passing** against live actions and real records
+  (`tests/Dakiya-behaviour.json`, run with `scripts/agent_preview_test.py`)
+- Still unpublished — activation is the owner's step
+
+### How to re-run the behaviour suite
+
+```bash
+cd salesforce
+python3 scripts/agent_preview_test.py tests/Dakiya-behaviour.json \
+    --org trial3 --live --reset scripts/reset_test_data.apex
+```
+
+`--live` matters: with simulated actions the LLM invents plausible action results, so a
+broken write path still "passes". Both of the serious bugs below were invisible without it.
+`--reset` matters too: the write scenarios mutate shared org data, so without it the suite
+only passes on a clean org.
+
+### Bugs this suite has caught
+
+| Bug | Symptom | Fix |
+|---|---|---|
+| Language instruction lived in the router, which never replies | Answered Hinglish in English | Moved to global `system.instructions` |
+| `GetPendingDeliveries` / `ListOpenReturns` returned prose, no record ids | *"could not find the right ID"* - the whole not-received journey dead | Ids inline per line + id list outputs |
+| OWD `Private` with View All but not Modify All | **Every write silently failed** | OWD to `ReadWrite`, View All dropped |

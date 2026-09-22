@@ -94,8 +94,8 @@ message falls through to the review queue instead of being guessed at.
 - 16 invocable actions deployed; 159 tests passing, 88.6% coverage
 - Agent Script bundle compiles clean locally (0 severity-1) and validates against the org
 - Deployed as a **draft**. Publish + activate are Gitanjali's step, by her instruction
-- `sf agent preview` needs an interactive TTY, so the 15 use cases in `docs/AGENT_SPEC.md`
-  are exercised by her, not by Claude
+- Behaviour suite: **17/17 passing** against live actions and real records. `sf agent preview`
+  has scriptable `start`/`send`/`end` subcommands, so this is automated - see `docs/AGENT_SPEC.md`
 
 ---
 
