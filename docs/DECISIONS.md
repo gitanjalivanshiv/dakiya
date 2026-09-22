@@ -297,3 +297,50 @@ Return.
 apart; with a single user and one agent acting on her behalf there is nobody to partition from, so
 Private bought nothing and silently broke the core write path. If Dakiya ever became multi-user this
 must be revisited first - it is the assumption the whole sharing design now rests on.
+
+---
+
+## 2026-09-22 — Agent API blocked by `Invalid Config`; chat deferred to a later phase
+
+**Status.** Every Agentforce **Service Agent** in `trial3` returns
+`412 Precondition Failed: Unable to load agent config: Invalid Config` when the Agent API tries to
+open a session. Two independently built agents fail identically. Chat is parked; the rest of the
+system is unaffected because Today/Orders/Returns go through the Apex REST API, not the Agent API.
+
+**What the investigation established (so nobody repeats it):**
+
+| Ruled out | Evidence |
+|---|---|
+| The agent script | Agentforce Builder's own Problems panel reports **0 errors, 0 warnings** - only info-level "filled by the LLM at runtime" hints, which are intentional |
+| Agent type | `ExternalCopilot` / `EinsteinServiceAgent`, same as a known-working agent |
+| Publish / activation state | Verified in `BotVersion`: the intended version is `Active` |
+| Running user binding | `BotDefinition.BotUserId` resolves to the agent user |
+| Apex action access | `Dakiya_Integration` grants all 39 classes to the agent user |
+| ECA scopes / flow | Token issues 200 with `api_instance_url` present |
+| Token format | JWT-form (3 parts) after enabling JWT-based tokens for named users |
+| Request shape | Removing `instanceConfig` changes the error to `400 Empty force-config endpoint`, proving the body is parsed |
+| My Domain endpoint | Matches the org's My Domain URL |
+| Builder Connections | Offers only Enhanced Chat v2, Messaging and Slack - **no API option exists to add** |
+| Agent user permissions | Aligned to a working agent's exact set; no change |
+
+**Reference agent.** `CampusCare` in the `dfHack` org is a working `ExternalCopilot`. Its
+`.agent` is structurally identical to ours: `access:` block, `agent_type:
+"AgentforceServiceAgent"`, no `variables:` block, no `connection` blocks. `Dakiya_Assistant` has
+been realigned to exactly that shape.
+
+**What is still untested, in order of promise:**
+
+1. **How the agent user was created.** Working agent users follow Salesforce's auto-provisioned
+   pattern (`nightingale.agent@00djv000000ay0ruaa.ext` - org-id domain, `.ext` suffix) because
+   Agentforce Builder creates them as a side effect of creating an agent. Ours was created by hand
+   with an invented username, since building from source never triggers that flow. The permission
+   sets have been matched, but the provisioning route has not.
+2. **An org-level Agentforce API entitlement** that this Developer Edition lacks. Data Cloud
+   objects (`DataConnector`, `CdpCalculatedInsight`) are not available in `trial3`, and Agentforce
+   runtime has Data Cloud dependencies.
+
+**Also worth knowing:** `sf project retrieve start --output-dir` silently writes nothing for
+`AiAuthoringBundle` in CLI 2.145.6 - it reports Succeeded and produces no files. Use
+`--target-metadata-dir ... --unzip` instead. This is the same failure that makes
+`sf agent publish authoring-bundle` report a red `Retrieve Metadata` error *after* it has already
+published successfully.
