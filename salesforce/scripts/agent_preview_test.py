@@ -108,6 +108,9 @@ def main() -> int:
     ap.add_argument("--bundle", default="Dakiya")
     ap.add_argument("--live", action="store_true", help="run real actions instead of simulated ones")
     ap.add_argument("--only", default=None, help="run one scenario by name substring")
+    ap.add_argument("--reset", default=None,
+                    help="anonymous Apex file to run before EACH scenario. Write actions mutate "
+                         "shared org data, so without this a suite only passes on its first run.")
     args = ap.parse_args()
 
     spec = json.load(open(args.scenarios))
@@ -119,6 +122,14 @@ def main() -> int:
 
     all_results: list[Result] = []
     for s in scenarios:
+        if args.reset:
+            rc = subprocess.run(
+                ["sf", "apex", "run", "-o", args.org, "-f", args.reset],
+                capture_output=True, text=True,
+            )
+            if rc.returncode != 0:
+                print(f"  ERROR  reset failed before {s['name']}: {rc.stderr[:200]}")
+                continue
         turns = [Turn(**t) for t in s["turns"]]
         try:
             rs = run_scenario(s["name"], turns, args.org, args.bundle, args.live)
