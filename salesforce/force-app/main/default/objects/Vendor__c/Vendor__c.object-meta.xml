@@ -12,6 +12,6 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Vendors</pluralLabel>
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

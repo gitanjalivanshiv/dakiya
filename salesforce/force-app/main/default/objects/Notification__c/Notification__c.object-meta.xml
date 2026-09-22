@@ -13,6 +13,6 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Notifications</pluralLabel>
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

@@ -269,3 +269,31 @@ it, `trial3` still had 0 of 201 Einstein Agent licences in use.
 
 **Consequence.** Any future org rebuild needs this user created before the agent bundle will deploy.
 It belongs in the runbook as a prerequisite, not a footnote.
+
+---
+
+## 2026-09-22 — Org-wide default changes from Private to Public Read/Write
+
+**Decision.** `Vendor__c`, `Purchase__c`, `Return__c`, `Tracking_Event__c`, `Inbound_Message__c` and
+`Notification__c` move from `Private` to `ReadWrite`. `View All Records` is dropped from both
+permission sets, since record access now comes from the org-wide default.
+
+**Reason.** §4 specifies "All objects: sharing Private; the user and the agent/integration user get
+access via permission sets." That combination does not work. `Dakiya_Integration` granted
+`viewAllRecords` but not `modifyAllRecords`, so the agent user could **read** every record and
+**write** none of them - it does not own the records the Worker creates, and the sharing model
+blocked the update.
+
+Behaviour testing caught it, and only because the tests ran with live actions: the agent answered
+"the Nykaa parcel says delivered but I never got it" with *"it could not be updated due to access
+issues"*. Every read scenario passed and every write scenario failed, which is the signature of
+exactly this gap. Simulated actions would have reported success.
+
+The obvious alternative, granting `modifyAllRecords`, is worse: Modify All implies delete, which
+would undo the deliberate choice that `Dakiya_Integration` cannot delete a Purchase, Vendor or
+Return.
+
+**Why this is safe here.** The org has one human. Private sharing exists to keep users' records
+apart; with a single user and one agent acting on her behalf there is nobody to partition from, so
+Private bought nothing and silently broke the core write path. If Dakiya ever became multi-user this
+must be revisited first - it is the assumption the whole sharing design now rests on.
