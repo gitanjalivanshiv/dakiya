@@ -12,7 +12,7 @@
   // never written here - this file is committed to a public repo.
   "vars": {
     "SF_MY_DOMAIN_URL": "https://orgfarm-562b8294cc-dev-ed.develop.my.salesforce.com",
-    "SF_AGENT_ID": "",
+    "SF_AGENT_ID": "0XxgK000002LhGvSAK",
     "APP_ORIGIN": "https://gitanjalivanshiv.github.io",
     "SMS_SENDER_ALLOWLIST": "",
     "RP_ID": "gitanjalivanshiv.github.io"

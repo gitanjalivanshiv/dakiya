@@ -43,20 +43,6 @@ config:
     agent_label: "Dakiya"
     description: "Personal parcel, returns and refund assistant for one user. Tracks orders from every seller, confirms deliveries, follows returns to refund, and reminds the user to check whether refunds actually arrived."
 
-variables:
-    EndUserId: linked string
-        source: @MessagingSession.MessagingEndUserId
-        description: "This variable may also be referred to as MessagingEndUser Id"
-    RoutableId: linked string
-        source: @MessagingSession.Id
-        description: "This variable may also be referred to as MessagingSession Id"
-    ContactId: linked string
-        source: @MessagingEndUser.ContactId
-        description: "This variable may also be referred to as MessagingEndUser ContactId"
-    EndUserLanguage: linked string
-        source: @MessagingSession.EndUserLanguage
-        description: "This variable may also be referred to as MessagingSession EndUserLanguage"
-
 language:
     default_locale: "en_US"
     additional_locales: ""
