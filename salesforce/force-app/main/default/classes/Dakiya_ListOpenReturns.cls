@@ -5,6 +5,8 @@ public with sharing class Dakiya_ListOpenReturns {
         @InvocableVariable(label='Summary') public String summary;
         @InvocableVariable(label='Open Count') public Integer openCount;
         @InvocableVariable(label='Refund Checks Due') public Integer refundChecksDue;
+        @InvocableVariable(label='Return Ids' description='Ids of the open returns. Pass one of these to Update Return Status or Record Refund Outcome.')
+        public List<String> returnIds;
     }
 
     @InvocableMethod(
@@ -15,6 +17,7 @@ public with sharing class Dakiya_ListOpenReturns {
     public static List<Response> run(List<String> requests) {
         Integer n = requests == null || requests.isEmpty() ? 1 : requests.size();
         Response r = new Response();
+        r.returnIds = new List<String>();
         try {
             List<Return__c> open = [
                 SELECT Type__c, Status__c, Requested_On__c, Refund_Initiated_On__c, Refund_Check_Due__c,
@@ -32,6 +35,7 @@ public with sharing class Dakiya_ListOpenReturns {
             } else {
                 List<String> lines = new List<String>{ open.size() + ' open return(s):' };
                 for (Return__c ret : open) {
+                    r.returnIds.add(ret.Id);
                     String vendor = ret.Purchase__r.Vendor__r == null ? 'Unknown seller' : ret.Purchase__r.Vendor__r.Name;
                     String line = '- ' + vendor + ' - ' + ret.Purchase__r.Title__c + ' - ' + ret.Status__c;
                     if (ret.Expected_Refund_Amount__c != null) {
@@ -47,7 +51,7 @@ public with sharing class Dakiya_ListOpenReturns {
                     } else if (ret.Refund_Check_Due__c != null) {
                         line += ', check by ' + DakiyaAgentFormat.day(ret.Refund_Check_Due__c);
                     }
-                    lines.add(line);
+                    lines.add(line + '  [returnId:' + ret.Id + ']');
                 }
                 if (r.refundChecksDue > 0) {
                     lines.add('');

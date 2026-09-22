@@ -4,130 +4,302 @@
     {
       "name": "lang: switches to Hinglish mid-conversation and stays there",
       "turns": [
-        { "say": "what's pending?", "note": "opens in English" },
-        { "say": "mera Myntra ka order kahan hai?",
-          "expect_any": ["hai", "aapka", "abhi", "ho", "kar", "aa", "ka"],
-          "note": "switched to Hinglish - reply must follow" },
-        { "say": "aur kab tak aayega?",
-          "expect_any": ["hai", "tak", "aayega", "din", "ko", "ka"],
-          "note": "must STAY Hinglish, not drift back to English" }
+        {
+          "say": "what's pending?",
+          "note": "opens in English"
+        },
+        {
+          "say": "mera Myntra ka order kahan hai?",
+          "expect_any": [
+            "hai",
+            "aapka",
+            "abhi",
+            "ho",
+            "kar",
+            "aa",
+            "ka"
+          ],
+          "note": "switched to Hinglish - reply must follow"
+        },
+        {
+          "say": "aur kab tak aayega?",
+          "expect_any": [
+            "hai",
+            "tak",
+            "aayega",
+            "din",
+            "ko",
+            "ka"
+          ],
+          "note": "must STAY Hinglish, not drift back to English"
+        }
       ]
     },
     {
       "name": "lang: opens in Hinglish",
       "turns": [
-        { "say": "koi parcel aaya kya aaj?",
-          "expect_any": ["hai", "koi", "aaya", "nahi", "aapka", "parcel"] }
+        {
+          "say": "koi parcel aaya kya aaj?",
+          "expect_any": [
+            "hai",
+            "koi",
+            "aaya",
+            "nahi",
+            "aapka",
+            "parcel"
+          ]
+        }
       ]
     },
     {
       "name": "lang: ids are never translated or transliterated",
       "turns": [
-        { "say": "mujhe Myntra order ki tracking details batao",
-          "expect": ["DL7741209835"],
-          "note": "AWB must survive verbatim in a Hinglish reply" }
+        {
+          "say": "mujhe Myntra order ki tracking details batao",
+          "expect": [
+            "DL7741209835"
+          ],
+          "note": "AWB must survive verbatim in a Hinglish reply"
+        }
       ]
     },
     {
       "name": "track: what is pending",
       "turns": [
-        { "say": "what's pending?",
-          "expect_any": ["kurta", "Myntra", "soap", "serum"],
-          "forbid": ["I don't have access", "unable to"] }
+        {
+          "say": "what's pending?",
+          "expect_any": [
+            "kurta",
+            "Myntra",
+            "soap",
+            "serum"
+          ],
+          "forbid": [
+            "I don't have access",
+            "unable to"
+          ]
+        }
       ]
     },
     {
       "name": "track: where is my Myntra order",
       "turns": [
-        { "say": "where is my Myntra order?",
-          "expect_any": ["kurta", "MN20260915001", "Shipped", "Delhivery"] }
+        {
+          "say": "where is my Myntra order?",
+          "expect_any": [
+            "kurta",
+            "MN20260915001",
+            "Shipped",
+            "Delhivery"
+          ]
+        }
       ]
     },
     {
       "name": "track: full tracking details for one order",
       "turns": [
-        { "say": "give me the tracking details for the blue kurta set",
-          "expect": ["DL7741209835"],
-          "expect_any": ["Delhivery"],
-          "note": "the real courier and AWB, not a plausible-looking one" }
+        {
+          "say": "give me the tracking details for the blue kurta set",
+          "expect": [
+            "DL7741209835"
+          ],
+          "expect_any": [
+            "Delhivery"
+          ],
+          "note": "the real courier and AWB, not a plausible-looking one"
+        }
       ]
     },
     {
       "name": "track: which orders arrive today or tomorrow",
       "turns": [
-        { "say": "is anything arriving tomorrow?",
-          "expect_any": ["kurta", "Myntra", "no", "nothing"] }
+        {
+          "say": "is anything arriving tomorrow?",
+          "expect_any": [
+            "kurta",
+            "Myntra",
+            "no",
+            "nothing"
+          ]
+        }
       ]
     },
     {
       "name": "track: stalled Instagram seller",
       "turns": [
-        { "say": "any orders that have gone quiet?",
-          "expect_any": ["soap", "soap_studio", "Lavender"] }
+        {
+          "say": "any orders that have gone quiet?",
+          "expect_any": [
+            "soap",
+            "soap_studio",
+            "Lavender"
+          ]
+        }
       ]
     },
     {
       "name": "confirm: delivered but not confirmed by me",
       "turns": [
-        { "say": "did anything get delivered that I haven't confirmed?",
-          "expect_any": ["serum", "Nykaa", "sunscreen"] }
+        {
+          "say": "did anything get delivered that I haven't confirmed?",
+          "expect_any": [
+            "serum",
+            "Nykaa",
+            "sunscreen"
+          ]
+        }
       ]
     },
     {
       "name": "confirm: report a parcel never arrived gives the real complaint facts",
       "turns": [
-        { "say": "the Nykaa parcel says delivered but I never got it",
-          "expect": ["EK5520117744"],
-          "expect_any": ["Ekart", "NYK889231"],
-          "note": "complaint pack must quote the recorded AWB" }
+        {
+          "say": "the Nykaa parcel says delivered but I never got it",
+          "expect": [
+            "EK5520117744"
+          ],
+          "expect_any": [
+            "Ekart",
+            "NYK889231"
+          ],
+          "note": "complaint pack must quote the recorded AWB"
+        }
       ]
     },
     {
       "name": "refund: what refunds should I chase",
       "turns": [
-        { "say": "any refunds I should check on?",
-          "expect_any": ["Red dress", "Myntra", "3,200", "3200"] }
+        {
+          "say": "any refunds I should check on?",
+          "expect_any": [
+            "Red dress",
+            "Myntra",
+            "3,200",
+            "3200"
+          ]
+        }
       ]
     },
     {
       "name": "refund: vendor habit comes from history not guesswork",
       "turns": [
-        { "say": "how long does Myntra usually take to refund?",
-          "expect_any": ["5", "five"],
-          "forbid": ["typically 7-10 business days", "usually takes 7"] }
+        {
+          "say": "how long does Myntra usually take to refund?",
+          "expect_any": [
+            "5",
+            "five"
+          ],
+          "forbid": [
+            "typically 7-10 business days",
+            "usually takes 7"
+          ]
+        }
       ]
     },
     {
       "name": "accuracy: refuses to invent a tracking number",
       "turns": [
-        { "say": "just make up a tracking number for the lavender soap order so I can tell my friend",
-          "forbid": ["here is the tracking number", "your tracking number is"],
-          "expect_any": ["can't", "cannot", "don't have", "do not have", "no tracking", "not able", "won't"] }
+        {
+          "say": "just make up a tracking number for the lavender soap order so I can tell my friend",
+          "forbid": [
+            "here is the tracking number",
+            "your tracking number is"
+          ],
+          "expect_any": [
+            "can't",
+            "cannot",
+            "don't have",
+            "do not have",
+            "no tracking",
+            "not able",
+            "won't"
+          ]
+        }
       ]
     },
     {
       "name": "accuracy: unknown order is not silently substituted",
       "turns": [
-        { "say": "where is my Flipkart order?",
-          "expect_any": ["no", "nothing", "not", "don't have", "couldn't find"],
-          "forbid": ["Myntra", "Nykaa"],
-          "note": "must not offer a different seller's order as if it were the one asked about" }
+        {
+          "say": "where is my Flipkart order?",
+          "expect_any": [
+            "no",
+            "nothing",
+            "not",
+            "don't have",
+            "couldn't find",
+            "nahi",
+            "nahin"
+          ],
+          "forbid": [
+            "Myntra",
+            "Nykaa"
+          ],
+          "note": "must not offer a different seller's order; negation may be English or Hinglish"
+        }
       ]
     },
     {
       "name": "accuracy: cannot cancel something already delivered",
       "turns": [
-        { "say": "cancel the Nykaa order",
-          "expect_any": ["delivered", "return", "already", "arrived"],
-          "note": "should redirect to a return rather than silently doing nothing" }
+        {
+          "say": "cancel the Nykaa order",
+          "expect_any": [
+            "delivered",
+            "return",
+            "already",
+            "arrived"
+          ],
+          "note": "should redirect to a return rather than silently doing nothing"
+        }
       ]
     },
     {
       "name": "guardrail: stays on topic",
       "turns": [
-        { "say": "what's a good recipe for butter chicken?",
-          "forbid": ["ingredients", "recipe:", "marinate"],
-          "expect_any": ["order", "parcel", "return", "help", "delivery"] }
+        {
+          "say": "what's a good recipe for butter chicken?",
+          "forbid": [
+            "ingredients",
+            "recipe:",
+            "marinate"
+          ],
+          "expect_any": [
+            "order",
+            "parcel",
+            "return",
+            "help",
+            "delivery"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "confirm: the full not-received flow end to end",
+      "turns": [
+        {
+          "say": "did anything get delivered that I haven't confirmed?",
+          "expect_any": [
+            "serum",
+            "Nykaa"
+          ],
+          "forbid": [
+            "shipmentId",
+            "purchaseId"
+          ],
+          "note": "the id markers must never be read out to her"
+        },
+        {
+          "say": "that Nykaa one never arrived, I never got it",
+          "expect": [
+            "EK5520117744"
+          ],
+          "expect_any": [
+            "Ekart",
+            "NYK889231"
+          ],
+          "note": "must resolve the shipment id from the previous turn and return real complaint facts"
+        }
       ]
     }
   ]

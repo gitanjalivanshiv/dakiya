@@ -16,14 +16,20 @@ system:
         A courier saying delivered is not the same as Gitanjali having the parcel, and
         a seller saying refunded is not the same as money arriving. Only she can
         confirm either.
-        Reply in the same language and script she writes in. If she writes Hinglish -
-        Hindi and English mixed together, written in Latin script - reply in Hinglish,
-        the same way she would speak it. If she switches language partway through a
-        conversation, switch with her from that message onward and stay switched; do
-        not drift back to English on the next turn.
+        Reply in the same language and script she writes in. English is the default:
+        answer in English unless she has actually written Hinglish in this conversation.
+        If she writes Hinglish - Hindi and English mixed together, written in Latin
+        script - reply in Hinglish, the same way she would speak it. If she switches
+        language partway through a conversation, switch with her from that message
+        onward and stay switched; do not drift back to English on the next turn.
         Whatever language you are writing in, never translate or transliterate an order
         number, tracking number, courier name, seller name or amount. Those stay
         exactly as the action returned them.
+        Some action results end each line with a marker like [shipmentId:a01...],
+        [purchaseId:a00...] or [returnId:a02...]. Those are for you, not for her: use
+        them as the record id when you call another action, and never read them out or
+        include them in a reply. If you need an id and do not have one, list the
+        relevant records first to get it - never invent an id or pass a name in its place.
     messages:
         welcome: "Hi! Ask me what's pending, confirm a delivery, or start a return."
         error: "Something went wrong on my side. Try again, or ask a different way."
@@ -103,13 +109,15 @@ subagent order_status:
     actions:
         get_pending_deliveries:
             target: "apex://Dakiya_GetPendingDeliveries"
-            description: "Lists every order not yet arrived, plus parcels a courier marked delivered that she has not confirmed receiving."
+            description: "Lists every order not yet arrived, plus parcels a courier marked delivered that she has not confirmed receiving. Each line carries the record id to use with follow-up actions."
             include_in_progress_indicator: True
             progress_indicator_message: "Checking what's pending..."
             outputs:
                 summary: string
                 pendingCount: integer
                 awaitingConfirmationCount: integer
+                pendingPurchaseIds: list[string]
+                awaitingConfirmationShipmentIds: list[string]
 
         search_purchases:
             target: "apex://Dakiya_SearchPurchases"
@@ -237,7 +245,9 @@ subagent delivery_confirmation:
               When she says she has it, confirm it received. When she says it never came despite being
               marked delivered, report it not received and read back the complaint pack so she can use
               it with the seller or courier.
-              If it is not obvious which parcel she means, check what is pending first and ask.
+              You need a shipment id before you can confirm or dispute anything. If you do
+              not already have one from this conversation, list what is pending first and
+              take the id from the matching line. Never call these actions without one.
               Quote only the order number, courier and tracking number the action returned. If the pack
               is missing a detail, say it is missing rather than supplying one.
         actions:
@@ -270,11 +280,13 @@ subagent delivery_confirmation:
 
         get_pending_deliveries:
             target: "apex://Dakiya_GetPendingDeliveries"
-            description: "Lists parcels awaiting her confirmation, to work out which one she means."
+            description: "Lists parcels awaiting her confirmation, with the shipment id for each, so the right one can be confirmed or disputed."
             outputs:
                 summary: string
                 pendingCount: integer
                 awaitingConfirmationCount: integer
+                pendingPurchaseIds: list[string]
+                awaitingConfirmationShipmentIds: list[string]
 
 subagent returns_and_refunds:
     label: "Returns and Refunds"
@@ -304,13 +316,14 @@ subagent returns_and_refunds:
     actions:
         list_open_returns:
             target: "apex://Dakiya_ListOpenReturns"
-            description: "Lists unfinished returns and flags refunds worth checking on now."
+            description: "Lists unfinished returns, flags refunds worth checking on now, and carries the return id for each so an outcome can be recorded against it."
             include_in_progress_indicator: True
             progress_indicator_message: "Checking your returns..."
             outputs:
                 summary: string
                 openCount: integer
                 refundChecksDue: integer
+                returnIds: list[string]
 
         create_return:
             target: "apex://Dakiya_CreateReturn"

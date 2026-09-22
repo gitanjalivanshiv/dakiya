@@ -13,6 +13,10 @@ public with sharing class Dakiya_GetPendingDeliveries {
         public Integer pendingCount;
         @InvocableVariable(label='Awaiting Confirmation Count')
         public Integer awaitingConfirmationCount;
+        @InvocableVariable(label='Pending Purchase Ids' description='Ids of the orders still on the way, for follow-up actions.')
+        public List<String> pendingPurchaseIds;
+        @InvocableVariable(label='Awaiting Confirmation Shipment Ids' description='Shipment ids awaiting confirmation. Pass one of these to Confirm Received or Report Not Received.')
+        public List<String> awaitingConfirmationShipmentIds;
     }
 
     @InvocableMethod(
@@ -25,6 +29,8 @@ public with sharing class Dakiya_GetPendingDeliveries {
         Integer n = requests == null || requests.isEmpty() ? 1 : requests.size();
 
         Response r = new Response();
+        r.pendingPurchaseIds = new List<String>();
+        r.awaitingConfirmationShipmentIds = new List<String>();
         try {
             List<Purchase__c> pending = Database.query(
                 'SELECT ' + DakiyaApi.PURCHASE_FIELDS + ' FROM Purchase__c ' +
@@ -48,20 +54,23 @@ public with sharing class Dakiya_GetPendingDeliveries {
             if (!pending.isEmpty()) {
                 lines.add('On the way (' + pending.size() + '):');
                 for (Purchase__c p : pending) {
+                    r.pendingPurchaseIds.add(p.Id);
                     String line = '- ' + DakiyaAgentFormat.describe(p) + ' - ' + p.Status__c;
                     if (p.Expected_Delivery__c != null) {
                         line += ', expected ' + DakiyaAgentFormat.day(p.Expected_Delivery__c);
                     }
-                    lines.add(line);
+                    lines.add(line + '  [purchaseId:' + p.Id + ']');
                 }
             }
             if (!unconfirmed.isEmpty()) {
                 lines.add('');
                 lines.add('Marked delivered but not confirmed by you (' + unconfirmed.size() + '):');
                 for (Shipment__c s : unconfirmed) {
+                    r.awaitingConfirmationShipmentIds.add(s.Id);
                     String vendor = s.Purchase__r.Vendor__r == null ? 'Unknown seller' : s.Purchase__r.Vendor__r.Name;
                     lines.add('- ' + vendor + ' - ' + s.Purchase__r.Title__c
-                              + ', courier said delivered ' + DakiyaAgentFormat.when(s.Delivered_At__c));
+                              + ', courier said delivered ' + DakiyaAgentFormat.when(s.Delivered_At__c)
+                              + '  [shipmentId:' + s.Id + ']');
                 }
             }
             r.summary = String.join(lines, '\n');
